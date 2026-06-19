@@ -6,59 +6,61 @@
 <title>Noveno — Repasos</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    font-family:'Segoe UI',system-ui,sans-serif;
-    background:linear-gradient(160deg,#fef3f8 0%,#eef4ff 55%,#f0fdf9 100%);
-    color:#475569;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:32px 20px;
+  html,body{height:100%}
+  body{font-family:'Segoe UI',system-ui,sans-serif;display:flex;flex-direction:column;height:100vh;background:#f6f3fb}
+
+  /* CABECERA FIJA */
+  #cab{
+    flex:0 0 auto;display:flex;align-items:center;gap:12px;
+    padding:12px 16px;background:#efe9ff;border-bottom:1.5px solid #e0d7f7;
+    box-shadow:0 2px 8px rgba(148,163,184,.15);
   }
-  .back{align-self:flex-start;max-width:760px;width:100%;margin:0 auto 8px;color:#94a3b8;text-decoration:none;font-size:13px}
-  .back:hover{color:#5b5170}
-  header{text-align:center;margin:18px 0 30px}
-  header h1{font-size:28px;font-weight:800;color:#5b5170}
-  header p{color:#94a3b8;margin-top:6px;font-size:14px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;width:100%;max-width:760px}
-  .card{
-    display:block;text-decoration:none;color:inherit;border-radius:20px;padding:26px 20px;
-    border:1.5px solid rgba(255,255,255,.7);
-    box-shadow:0 6px 18px rgba(148,163,184,.18);
-    transition:transform .15s,box-shadow .15s;
+  #cab .btn{
+    border:none;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;
+    background:#fff;color:#7c5cdb;border:1.5px solid #d9ccf7;border-radius:10px;padding:8px 14px;
+    transition:background .15s,transform .15s;white-space:nowrap;
   }
-  .card:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(148,163,184,.28)}
-  .card .ico{font-size:34px}
-  .card h2{font-size:19px;font-weight:800;margin:10px 0 4px;color:#3f3a52}
-  .card p{color:#6b7280;font-size:13px;line-height:1.5}
-  .card .go{display:inline-block;margin-top:12px;font-size:13px;font-weight:800}
-  /* colores pastel */
-  .menta{background:#dcfce7}  .menta .go{color:#16a34a}
-  .durazno{background:#ffe9d6}.durazno .go{color:#ea7c34}
-  .cielo{background:#dbeafe}  .cielo .go{color:#2563eb}
-  .lila{background:#efe9ff}   .lila .go{color:#7c5cdb}
-  .rosa{background:#fce7f3}   .rosa .go{color:#db2777}
-  .soon{background:#f1f5f9;opacity:.85;pointer-events:none}
-  .soon .go{color:#94a3b8}
-  footer{margin-top:36px;color:#a8b0bd;font-size:12px}
+  #cab .btn:hover{background:#f3eeff;transform:translateY(-1px)}
+  #cab h1{flex:1;text-align:center;font-size:18px;font-weight:800;color:#5b5170}
+  #cab a.home{text-decoration:none}
+  #atras{visibility:hidden}
+
+  /* CONTENIDO EN IFRAME */
+  #marco{flex:1 1 auto;width:100%;border:0;display:block;background:#fff}
+
+  /* PIE FIJO */
+  #pie{
+    flex:0 0 auto;text-align:center;padding:10px;font-size:12px;color:#8b93a3;
+    background:#efe9ff;border-top:1.5px solid #e0d7f7;
+  }
+  @media(max-width:480px){#cab h1{font-size:15px} #cab .btn{padding:7px 11px;font-size:13px}}
 </style>
 </head>
 <body>
-  <a class="back" href="../index.html">← Años</a>
-  <header>
+  <div id="cab">
+    <button id="atras" class="btn" onclick="verMaterias()">← Materias</button>
     <h1>9️⃣ Noveno</h1>
-    <p>Elige una materia</p>
-  </header>
-  <div class="grid">
-    <a class="card menta" href="repaso-matematicas-examen.html">
-      <div class="ico">🔢</div>
-      <h2>Matemáticas</h2>
-      <p>Repaso para el examen final: productos notables, factorización, ecuaciones, conjuntos y funciones — con ejercicios resueltos.</p>
-      <span class="go">Estudiar →</span>
-    </a>
-    <div class="card soon">
-      <div class="ico">➕</div>
-      <h2>Más materias</h2>
-      <p>Próximamente</p>
-      <span class="go">Pronto</span>
-    </div>
+    <a class="home" href="../index.html"><button class="btn">🏠 Años</button></a>
   </div>
-  <footer>Noveno año 💜</footer>
+
+  <iframe id="marco" src="materias.html" title="Contenido"></iframe>
+
+  <div id="pie">Noveno año 💜 — Repasos de estudio</div>
+
+<script>
+  const marco = document.getElementById('marco');
+  const atras = document.getElementById('atras');
+
+  function verMaterias(){ marco.src = 'materias.html'; }
+
+  marco.addEventListener('load', () => {
+    let enMenu = true;
+    try {
+      const p = marco.contentWindow.location.pathname;
+      enMenu = p.endsWith('/materias.html') || p.endsWith('materias.html');
+    } catch(e){ enMenu = false; }
+    atras.style.visibility = enMenu ? 'hidden' : 'visible';
+  });
+</script>
 </body>
 </html>
