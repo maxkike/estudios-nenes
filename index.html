@@ -5,25 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Repasos — Estudios</title>
 <style>
-  :root{
-    --bg:#0f172a; --card:#1e293b; --card2:#334155; --border:#334155;
-    --text:#e2e8f0; --muted:#94a3b8; --accent:#3b82f6; --accent2:#22c55e;
-  }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(160deg,#0f172a,#1e293b);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:40px 20px}
-  header{text-align:center;margin-bottom:36px}
-  header h1{font-size:30px;font-weight:800;letter-spacing:.5px}
-  header p{color:var(--muted);margin-top:8px;font-size:15px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;width:100%;max-width:760px}
-  .card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px 22px;transition:transform .15s,border-color .15s,background .15s}
-  .card:hover{transform:translateY(-3px);border-color:var(--accent);background:#243150}
-  .card .ico{font-size:34px}
-  .card h2{font-size:20px;font-weight:700;margin:12px 0 4px}
-  .card p{color:var(--muted);font-size:13px}
-  .card .go{display:inline-block;margin-top:14px;font-size:13px;font-weight:700;color:var(--accent)}
-  .card.soon{opacity:.5;pointer-events:none}
-  .card.soon .go{color:var(--muted)}
-  footer{margin-top:40px;color:var(--muted);font-size:12px;text-align:center}
+  body{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    background:linear-gradient(160deg,#fef3f8 0%,#eef4ff 55%,#f0fdf9 100%);
+    color:#475569;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px;
+  }
+  header{text-align:center;margin-bottom:38px}
+  header h1{font-size:30px;font-weight:800;color:#5b5170;letter-spacing:.3px}
+  header p{color:#94a3b8;margin-top:8px;font-size:15px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;width:100%;max-width:760px}
+  .card{
+    display:block;text-decoration:none;color:inherit;border-radius:20px;padding:28px 22px;
+    border:1.5px solid rgba(255,255,255,.7);
+    box-shadow:0 6px 18px rgba(148,163,184,.18);
+    transition:transform .15s,box-shadow .15s;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(148,163,184,.28)}
+  .card .ico{font-size:36px}
+  .card h2{font-size:21px;font-weight:800;margin:12px 0 4px;color:#3f3a52}
+  .card p{color:#6b7280;font-size:13px;line-height:1.5}
+  .card .go{display:inline-block;margin-top:14px;font-size:13px;font-weight:800}
+  /* colores pastel */
+  .lila{background:#efe9ff}   .lila .go{color:#7c5cdb}
+  .menta{background:#dcfce7}  .menta .go{color:#16a34a}
+  .durazno{background:#ffe9d6}.durazno .go{color:#ea7c34}
+  .cielo{background:#dbeafe} .cielo .go{color:#2563eb}
+  .soon{background:#f1f5f9;opacity:.85}
+  .soon .go{color:#94a3b8}
+  .soon{pointer-events:none}
+  footer{margin-top:44px;color:#a8b0bd;font-size:12px;text-align:center}
 </style>
 </head>
 <body>
@@ -32,7 +43,7 @@
     <p>Elige tu año para ver los temas</p>
   </header>
   <div class="grid">
-    <a class="card" href="noveno/index.html">
+    <a class="card lila" href="noveno/index.html">
       <div class="ico">9️⃣</div>
       <h2>Noveno</h2>
       <p>Repasos y exámenes de 9.º año</p>
@@ -45,6 +56,6 @@
       <span class="go">Pronto</span>
     </div>
   </div>
-  <footer>Hecho con cariño para el estudio 💙</footer>
+  <footer>Hecho con cariño para el estudio 💜</footer>
 </body>
 </html>
