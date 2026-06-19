@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noveno — Repasos</title>
+<style>
+  :root{
+    --bg:#0f172a; --card:#1e293b; --border:#334155;
+    --text:#e2e8f0; --muted:#94a3b8; --accent:#3b82f6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(160deg,#0f172a,#1e293b);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:32px 20px}
+  .back{align-self:flex-start;max-width:760px;width:100%;margin:0 auto 8px;color:var(--muted);text-decoration:none;font-size:13px}
+  .back:hover{color:var(--text)}
+  header{text-align:center;margin:18px 0 30px}
+  header h1{font-size:28px;font-weight:800}
+  header p{color:var(--muted);margin-top:6px;font-size:14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;width:100%;max-width:760px}
+  .card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 20px;transition:transform .15s,border-color .15s,background .15s}
+  .card:hover{transform:translateY(-3px);border-color:var(--accent);background:#243150}
+  .card .ico{font-size:32px}
+  .card h2{font-size:18px;font-weight:700;margin:10px 0 4px}
+  .card p{color:var(--muted);font-size:13px}
+  .card .go{display:inline-block;margin-top:12px;font-size:13px;font-weight:700;color:var(--accent)}
+  .card.soon{opacity:.5;pointer-events:none}
+  .card.soon .go{color:var(--muted)}
+  footer{margin-top:36px;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+  <a class="back" href="../index.html">← Años</a>
+  <header>
+    <h1>9️⃣ Noveno</h1>
+    <p>Elige una materia</p>
+  </header>
+  <div class="grid">
+    <a class="card" href="repaso-matematicas-examen.html">
+      <div class="ico">🔢</div>
+      <h2>Matemáticas</h2>
+      <p>Repaso para el examen final: productos notables, factorización, ecuaciones, conjuntos y funciones — con ejercicios resueltos.</p>
+      <span class="go">Estudiar →</span>
+    </a>
+    <div class="card soon">
+      <div class="ico">➕</div>
+      <h2>Más materias</h2>
+      <p>Próximamente</p>
+      <span class="go">Pronto</span>
+    </div>
+  </div>
+  <footer>Noveno año 💙</footer>
+</body>
+</html>
