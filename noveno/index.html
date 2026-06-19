@@ -22,7 +22,7 @@
   }
   #cab .btn:hover{background:#f3eeff;transform:translateY(-1px)}
   #cab h1{flex:1;text-align:center;font-size:18px;font-weight:800;color:#5b5170}
-  #cab a.home{text-decoration:none}
+  #cab a.btn{text-decoration:none;display:inline-flex;align-items:center}
   #atras{visibility:hidden}
 
   /* CONTENIDO EN IFRAME */
@@ -40,7 +40,7 @@
   <div id="cab">
     <button id="atras" class="btn" onclick="verMaterias()">← Materias</button>
     <h1>9️⃣ Noveno</h1>
-    <a class="home" href="../index.html"><button class="btn">🏠 Años</button></a>
+    <a class="btn" href="../index.html">🏠 Años</a>
   </div>
 
   <iframe id="marco" src="materias.html" title="Contenido"></iframe>
@@ -51,7 +51,7 @@
   const marco = document.getElementById('marco');
   const atras = document.getElementById('atras');
 
-  function verMaterias(){ marco.src = 'materias.html'; }
+  function verMaterias(){ marco.src = 'materias.html?v=' + Date.now(); }
 
   marco.addEventListener('load', () => {
     let enMenu = true;
