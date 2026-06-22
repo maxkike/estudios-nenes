@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudios Sociales · 9no de Básica</title>
+<style>
+  :root{
+    --bg:#fbf9f6; --ink:#3a3a3a; --muted:#7a7a72; --line:#ece7df;
+    --teal-bg:#eafaf3; --teal-ink:#2e7d63;
+    --amber-bg:#fdf5e6; --amber-ink:#9a6a1c;
+    --blue-bg:#eaf3fd; --blue-ink:#3a6ea5;
+    --coral-bg:#fdeee8; --coral-ink:#b15c3e;
+    --ok-bg:#eafaf3; --ok-ink:#2e7d63; --ok-bd:#9bd9bd;
+    --no-bg:#fdecec; --no-ink:#c0564a; --no-bd:#f0b6ae;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6;}
+  #portada{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:32px; background:linear-gradient(160deg,#eafaf3,#eaf3fd 45%,#fdeee8);}
+  #portada .badge{font-size:60px;}
+  #portada h1{font-size:34px; margin:14px 0 6px; color:#41624f; font-weight:700;}
+  #portada h2{font-size:18px; font-weight:500; color:#6f7a72; margin:0 0 4px;}
+  #portada p{color:#8a8a82; max-width:450px; margin:10px 0 26px;}
+  .start{border:none; background:#7fc9aa; color:#fff; font-size:17px; padding:14px 34px; border-radius:30px; cursor:pointer; box-shadow:0 6px 16px rgba(127,201,170,.4); transition:transform .15s;}
+  .start:hover{transform:translateY(-2px);}
+  .tags{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:26px;}
+  .tags span{background:rgba(255,255,255,.7); padding:6px 14px; border-radius:20px; font-size:13px; color:#6f7a72;}
+  #app{display:none; max-width:920px; margin:0 auto; padding:18px;}
+  .top{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;}
+  .top h1{font-size:20px; margin:0; color:#41624f;}
+  .home{border:1px solid var(--line); background:#fff; border-radius:18px; padding:7px 16px; cursor:pointer; font-size:13px; color:var(--muted);}
+  .layout{display:flex; gap:16px; align-items:flex-start;}
+  nav{flex:0 0 200px; display:flex; flex-direction:column; gap:10px;}
+  .navbtn{text-align:left; padding:12px 14px; border-radius:16px; border:2px solid transparent; cursor:pointer; font-size:13.5px; line-height:1.3; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .navbtn small{display:block; color:var(--muted); font-size:11.5px; margin-top:3px;}
+  main{flex:1; min-width:0;}
+  .head{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
+  .head .ic{font-size:30px;}
+  .head h2{margin:0; font-size:22px;}
+  .card{border-radius:18px; padding:14px 18px; margin-bottom:12px;}
+  .card h3{margin:0 0 5px; font-size:15.5px;}
+  .card p{margin:0; font-size:14.5px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:12px;}
+  .gc{border-radius:14px; padding:11px 13px;}
+  .gc b{display:block; font-size:14px;}
+  .gc span{font-size:13px; color:var(--muted);}
+  .pill{display:inline-block; padding:4px 12px; border-radius:16px; font-size:13px; margin:3px 4px 3px 0;}
+  .qhead{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:22px 0 4px;}
+  .qhead h3{margin:0; font-size:18px;}
+  .score{font-size:14px; font-weight:600; background:#fff; border:1px solid var(--line); border-radius:16px; padding:5px 14px;}
+  .hint{font-size:12.5px; color:#a8a89e; margin:0 0 12px;}
+  .quiz{border:1px solid var(--line); border-radius:16px; padding:14px 16px; margin-bottom:11px; background:#fff;}
+  .qn{font-weight:600; font-size:15px; margin-bottom:10px;}
+  .qn .num{display:inline-block; width:24px; height:24px; line-height:24px; text-align:center; border-radius:50%; color:#fff; font-size:13px; margin-right:7px;}
+  .opt{display:block; width:100%; text-align:left; border:1px solid var(--line); background:#fcfbf9; border-radius:12px; padding:10px 13px; margin-bottom:7px; font-size:14px; cursor:pointer; transition:all .12s; font-family:inherit; color:var(--ink);}
+  .opt:hover:not(.done){border-color:#cfcabf; background:#fff;}
+  .opt.correct{background:var(--ok-bg); border-color:var(--ok-bd); color:var(--ok-ink); font-weight:600;}
+  .opt.wrong{background:var(--no-bg); border-color:var(--no-bd); color:var(--no-ink);}
+  .opt .mk{float:right; font-weight:700;}
+  .fb{font-size:13.5px; margin-top:6px; padding:8px 11px; border-radius:10px; display:none;}
+  .fb.show{display:block;}
+  .fb.good{background:var(--ok-bg); color:var(--ok-ink);}
+  .fb.bad{background:var(--no-bg); color:var(--no-ink);}
+  .reset{margin-top:6px; border:1px solid var(--line); background:#fff; border-radius:18px; padding:8px 18px; font-size:13px; cursor:pointer; color:var(--muted);}
+  .result{display:none; border-radius:16px; padding:16px; text-align:center; margin:14px 0; font-size:15px; font-weight:600;}
+  .result.show{display:block;}
+  .foot{text-align:center; color:#b8b8ae; font-size:12px; margin:26px 0 10px;}
+  @media(max-width:640px){ .layout{flex-direction:column;} nav{flex:none; width:100%; flex-direction:row; overflow-x:auto;} .navbtn{flex:0 0 auto; min-width:165px;} }
+</style>
+</head>
+<body>
+
+<section id="portada">
+  <div class="badge">🌵</div>
+  <h1>Estudios Sociales</h1>
+  <h2>9no de Básica</h2>
+  <p>Repasa el Buen Vivir, los sectores económicos y los temas sociales del Ecuador. Estudia cada tema y luego resuelve su prueba.</p>
+  <button class="start" onclick="entrar()">Empezar a estudiar</button>
+  <div class="tags">
+    <span>🌱 Sumak Kawsay</span><span>🌸 Dimensiones del Suma</span><span>🏭 Sectores económicos</span><span>👪 Pobreza y migración</span>
+  </div>
+</section>
+
+<section id="app">
+  <div class="top">
+    <h1>Estudios Sociales · 9no</h1>
+    <button class="home" onclick="inicio()">← Portada</button>
+  </div>
+  <div class="layout">
+    <nav id="nav"></nav>
+    <main id="main"></main>
+  </div>
+  <div class="foot">Estudia el contenido y resuelve la prueba de cada tema 🎯</div>
+</section>
+
+<script>
+const DATA=[
+ {id:0,emoji:"🌱",short:"Sumak Kawsay",c:"#2e7d63",bg:"#eafaf3",soft:"#cdeee0",title:"Sumak Kawsay (Buen Vivir)",
+  blocks:[
+   {h:"¿Qué es?",t:"El <b>Sumak Kawsay</b> (en kichwa) o <b>Buen Vivir</b> es una forma de vida que propone saber vivir en armonía con los ciclos de la Madre Tierra, del cosmos, de la vida y de la historia, en equilibrio con toda forma de existencia. No busca solo tener más dinero o cosas, sino vivir bien con la comunidad y la naturaleza."},
+   {h:"¿De dónde viene?",t:"Nace de la <b>cosmovisión de los pueblos andinos</b> (kichwa y aymara). En Ecuador se incorporó en la <b>Constitución de 2008</b> como el “Régimen del Buen Vivir”, e incluso se reconocieron los <b>derechos de la naturaleza (Pachamama)</b>, algo único en el mundo."},
+   {h:"En cada país",t:"<b>Ecuador:</b> Buen Vivir (Sumak Kawsay).<br><b>Bolivia:</b> Vivir Bien (Suma Qamaña).<br>En ambos países es un <b>modelo alternativo</b> de vida y desarrollo, distinto al modelo occidental que mide el progreso solo por el crecimiento económico."},
+   {h:"Principios que propone",pills:["Reciprocidad","Complementariedad","Equilibrio","Vida comunitaria"],t:"Propone recuperar y aplicar <b>prácticas ancestrales</b> de los pueblos originarios."},
+   {h:"Es un derecho",t:"Sostiene que es un derecho de la población <b>vivir en un ambiente sano y ecológicamente equilibrado</b>, que garantice la sostenibilidad para las generaciones presentes y futuras."}
+  ],
+  q:[
+   ["¿Qué significa Sumak Kawsay?",["El Buen Vivir: saber vivir en armonía con la naturaleza y la comunidad","Trabajar mucho para ganar más dinero","Vivir en la ciudad rodeado de tecnología"],0],
+   ["¿En qué idioma originario está la frase “Sumak Kawsay”?",["Kichwa","Inglés","Latín"],0],
+   ["¿En qué dos países es un modelo de vida y desarrollo?",["Ecuador y Bolivia","Perú y Chile","España y México"],0],
+   ["¿Cómo se llama el Buen Vivir en Bolivia?",["Suma Qamaña (Vivir Bien)","Sumak Kawsay","Pachamama"],0],
+   ["¿En qué año se incorporó el Buen Vivir a la Constitución del Ecuador?",["2008","1998","2020"],0],
+   ["¿Qué reconoció la Constitución de 2008 además del Buen Vivir?",["Los derechos de la naturaleza (Pachamama)","El derecho a no pagar impuestos","La obligación de migrar"],0],
+   ["¿En qué se diferencia del modelo occidental de desarrollo?",["Busca el equilibrio con la naturaleza, no solo el crecimiento económico","No existe ninguna diferencia","Solo busca acumular dinero"],0],
+   ["¿Cuál es un principio del Buen Vivir?",["La reciprocidad","La competencia","El individualismo"],0],
+   ["¿Qué derecho ambiental garantiza el Buen Vivir?",["Vivir en un ambiente sano y equilibrado","Contaminar libremente","Talar bosques sin permiso"],0]
+  ]},
+ {id:1,emoji:"🌸",short:"Dimensiones",c:"#9a6a1c",bg:"#fdf5e6",soft:"#fbe6c0",title:"Dimensiones del Suma",
+  blocks:[
+   {h:"La idea",t:"El Buen Vivir no es solo una teoría: se practica en la vida diaria. Los pueblos andinos lo expresan en varias <b>dimensiones</b> (en aymara). Cada palabra empieza con <b>“Suma”</b>, que quiere decir <b>“saber”</b>: saber hacer cada cosa bien y en armonía."},
+   {grid:[["Suma Manq'aña","Saber comer"],["Suma Umaña","Saber beber"],["Suma Ikiña","Saber dormir"],["Suma Thokoña","Saber danzar"],["Suma Irnakaña","Saber trabajar"],["Suma Amuyaña","Saber pensar"],["Suma Lupiña","Saber meditar"],["Suma Munaña","Saber amar y ser amado"]]},
+   {h:"¿Por qué importan?",t:"Muestran que el Buen Vivir abarca <b>todas las actividades</b> de la persona (comer, dormir, trabajar, amar) y no solo el dinero. Vivir bien es hacer cada una en equilibrio con uno mismo, los demás y la naturaleza."}
+  ],
+  q:[
+   ["¿Qué quiere decir “Suma” antes de cada palabra?",["“Saber”","“Sumar números”","“Comprar”"],0],
+   ["¿En qué idioma están estas dimensiones?",["Aymara","Inglés","Portugués"],0],
+   ["Suma Manq'aña significa…",["Saber comer","Saber dormir","Saber trabajar"],0],
+   ["Suma Irnakaña significa…",["Saber trabajar","Saber comer","Saber danzar"],0],
+   ["Suma Munaña significa…",["Saber amar y ser amado","Saber pensar","Saber beber"],0],
+   ["Suma Thokoña significa…",["Saber danzar","Saber dormir","Saber comer"],0],
+   ["Suma Umaña significa…",["Saber beber","Saber caminar","Saber trabajar"],0],
+   ["¿Qué nos enseñan estas dimensiones sobre el Buen Vivir?",["Que abarca todas las actividades de la vida, no solo lo económico","Que solo importa el dinero","Que solo importa dormir"],0]
+  ]},
+ {id:2,emoji:"🏭",short:"Sectores",c:"#3a6ea5",bg:"#eaf3fd",soft:"#cfe2f7",title:"Sectores económicos",
+  blocks:[
+   {h:"¿Qué son?",t:"Los sectores económicos son el conjunto de <b>actividades para producir bienes y servicios</b>, generar trabajo y mover la economía de un país. Se dividen en tres sectores principales."},
+   {h:"1. Sector primario",t:"Obtiene los <b>recursos naturales</b> directamente de la tierra, el mar o los animales.<br><b>Actividades:</b> agricultura (maíz, banano, cacao, arroz, flores), ganadería (carne, leche), pesca (camarón, atún), minería, silvicultura, apicultura y caza."},
+   {h:"2. Sector secundario",t:"<b>Transforma la materia prima</b> del sector primario en productos elaborados.<br><b>Actividades:</b> industria de alimentos, aceite, fábricas textiles, procesamiento de cacao, refinación de petróleo, construcción, energía y artesanía."},
+   {h:"3. Sector terciario",t:"No produce bienes, sino que <b>ofrece servicios</b> a la población.<br><b>Actividades:</b> comercio, transporte, turismo, educación, salud (sanidad), bancos y servicios financieros."},
+   {h:"En el Ecuador",t:"Productos clave de exportación: <b>banano, cacao, camarón, flores y petróleo</b>. La economía ecuatoriana combina los tres sectores, aunque mucha gente trabaja también en el <b>empleo informal</b>."}
+  ],
+  q:[
+   ["¿Qué son los sectores económicos?",["Las actividades que producen bienes y servicios y mueven la economía","Los países vecinos del Ecuador","Las materias del colegio"],0],
+   ["¿Cuántos sectores principales hay y cuáles son?",["Tres: primario, secundario y terciario","Dos: rico y pobre","Cuatro: norte, sur, este y oeste"],0],
+   ["¿Qué hace el sector primario?",["Obtiene recursos naturales","Transforma la materia prima","Ofrece servicios de salud"],0],
+   ["¿Qué hace el sector secundario?",["Transforma la materia prima en productos elaborados","Obtiene recursos naturales","Vende servicios bancarios"],0],
+   ["¿Qué hace el sector terciario?",["Ofrece servicios a la población","Cultiva la tierra","Extrae minerales"],0],
+   ["¿A qué sector pertenece un banco?",["Terciario","Primario","Secundario"],0],
+   ["¿A qué sector pertenece la pesca de camarón?",["Primario","Secundario","Terciario"],0],
+   ["¿A qué sector pertenece una fábrica textil?",["Secundario","Primario","Terciario"],0],
+   ["¿Cuál es un producto de exportación del Ecuador?",["El banano","Automóviles de lujo","Teléfonos celulares"],0]
+  ]},
+ {id:3,emoji:"👪",short:"Pobreza y migración",c:"#b15c3e",bg:"#fdeee8",soft:"#f8d6c8",title:"Pobreza, desempleo y migración",
+  blocks:[
+   {h:"Pobreza",t:"<b>Pobreza extrema:</b> situación en la que las personas no pueden cubrir ni siquiera la alimentación básica.<br><b>Pobreza relativa:</b> cuando una persona o familia no tiene suficientes recursos para cubrir sus necesidades básicas (alimentación, vivienda, salud, educación)."},
+   {h:"Causas de la pobreza",t:"Desigualdad social, deuda externa, corrupción, conflictos y desigualdad tecnológica. Estas causas hacen que la riqueza no llegue a todos por igual."},
+   {h:"Desempleo",t:"Ocurre cuando una persona <b>tiene edad para trabajar pero no consigue empleo</b>. Relacionados: el <b>subempleo</b> (trabaja menos de lo que puede) y el <b>empleo informal</b> (sin contrato ni seguridad social).<br><b>Consecuencias:</b> delincuencia, problemas de salud y trabajos informales."},
+   {h:"Migración",t:"Es el <b>movimiento de personas o grupos que cambian su lugar de residencia</b>, ya sea dentro de un mismo país o hacia otro, de forma temporal o definitiva.<br><b>Tipos:</b> interna (dentro del país) o externa (a otro país); <b>emigración</b> (salir) e <b>inmigración</b> (entrar)."},
+   {h:"Causas de la migración",t:"<b>Económicas:</b> falta de empleo, bajos ingresos.<br><b>Sociales:</b> reunificación familiar, acceso a educación o salud.<br><b>Políticas:</b> guerras, conflictos, persecución, falta de seguridad.<br><b>Ambientales:</b> desastres naturales, cambio climático, escasez de recursos."},
+   {h:"Consecuencias de la migración",t:"<b>Positivas:</b> envío de <b>remesas</b> (dinero) a las familias.<br><b>Negativas:</b> desintegración familiar y “fuga de cerebros” (se van personas preparadas)."}
+  ],
+  q:[
+   ["¿Qué es la pobreza extrema?",["Cuando no se puede cubrir ni siquiera la alimentación básica","Tener menos juguetes que otros","No tener internet en casa"],0],
+   ["¿Qué es la pobreza relativa?",["Cuando una familia no tiene recursos suficientes para sus necesidades básicas","Ser millonario","No tener un auto deportivo"],0],
+   ["¿Cuál es una causa de la pobreza?",["La desigualdad social y la corrupción","El buen clima","La abundancia de empleo"],0],
+   ["¿Qué es el desempleo?",["Cuando alguien tiene edad para trabajar pero no consigue empleo","Cuando alguien no quiere estudiar","Cuando una persona se jubila feliz"],0],
+   ["¿Qué es el empleo informal?",["Un trabajo sin contrato ni seguridad social","Un trabajo en una empresa grande","Un trabajo con vacaciones pagadas"],0],
+   ["¿Qué es la migración?",["El movimiento de personas que cambian su lugar de residencia","Quedarse siempre en el mismo lugar","Salir de paseo por una tarde"],0],
+   ["¿Qué diferencia hay entre emigración e inmigración?",["Emigración es salir de un lugar; inmigración es entrar a otro","Son exactamente lo mismo","Emigrar es entrar y inmigrar es salir"],0],
+   ["¿Cuál es una causa económica de la migración?",["La falta de empleo o los bajos ingresos","El exceso de dinero","Tener un buen trabajo estable"],0],
+   ["¿Cuál es una causa ambiental de la migración?",["Los desastres naturales o el cambio climático","Una fiesta familiar","Un partido de fútbol"],0],
+   ["¿Qué son las remesas?",["El dinero que los migrantes envían a sus familias","Los impuestos que cobra el gobierno","Las deudas de un país"],0]
+  ]}
+];
+let cur=0;
+const state={};
+DATA.forEach(d=>state[d.id]={answered:0,correct:0});
+const nav=document.getElementById('nav'),main=document.getElementById('main');
+function entrar(){document.getElementById('portada').style.display='none';document.getElementById('app').style.display='block';render();window.scrollTo(0,0);}
+function inicio(){document.getElementById('app').style.display='none';document.getElementById('portada').style.display='flex';window.scrollTo(0,0);}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function renderNav(){nav.innerHTML='';DATA.forEach(d=>{const b=document.createElement('button');b.className='navbtn';b.style.background=d.bg;b.style.borderColor=d.id===cur?d.c:'transparent';b.innerHTML='<span style="color:'+d.c+';font-weight:600">'+d.emoji+' '+d.title+'</span><small>'+state[d.id].correct+'/'+d.q.length+' aciertos</small>';b.onclick=()=>{cur=d.id;render();window.scrollTo(0,0);};nav.appendChild(b);});}
+function render(){renderNav();const d=DATA[cur];let h='';
+ h+='<div class="head"><span class="ic">'+d.emoji+'</span><h2 style="color:'+d.c+'">'+d.title+'</h2></div>';
+ d.blocks.forEach(bl=>{
+   if(bl.grid){h+='<div class="grid">';bl.grid.forEach(g=>{h+='<div class="gc" style="background:'+d.bg+'"><b style="color:'+d.c+'">'+g[0]+'</b><span>'+g[1]+'</span></div>';});h+='</div>';}
+   else{let pills='';if(bl.pills){pills='<div style="margin-bottom:6px">';bl.pills.forEach(p=>{pills+='<span class="pill" style="background:'+d.soft+';color:'+d.c+'">'+p+'</span>';});pills+='</div>';}
+     h+='<div class="card" style="background:'+d.bg+'"><h3 style="color:'+d.c+'">'+bl.h+'</h3>'+pills+'<p>'+bl.t+'</p></div>';}
+ });
+ h+='<div class="qhead"><h3 style="color:'+d.c+'">Prueba: '+d.short+'</h3><span class="score" id="score" style="color:'+d.c+'">Aciertos: '+state[d.id].correct+' / '+d.q.length+'</span></div>';
+ h+='<p class="hint">Elige la respuesta correcta en cada pregunta. Verde = correcta, rojo = incorrecta.</p>';
+ d.q.forEach((qq,i)=>{
+   const opts=shuffle(qq[1].map((txt,idx)=>({txt,ok:idx===qq[2]})));
+   h+='<div class="quiz" data-q="'+i+'"><div class="qn"><span class="num" style="background:'+d.c+'">'+(i+1)+'</span>'+qq[0]+'</div>';
+   opts.forEach(o=>{h+='<button class="opt" data-ok="'+(o.ok?1:0)+'" onclick="answer(this)">'+o.txt+'</button>';});
+   h+='<div class="fb"></div></div>';
+ });
+ h+='<div class="result" id="result" style="background:'+d.bg+';color:'+d.c+'"></div>';
+ h+='<button class="reset" onclick="render()">↻ Reiniciar prueba</button>';
+ main.innerHTML=h;
+}
+function answer(btn){
+ const quiz=btn.closest('.quiz');
+ if(quiz.dataset.done)return;
+ quiz.dataset.done=1;
+ const d=DATA[cur];const ok=btn.dataset.ok==='1';
+ quiz.querySelectorAll('.opt').forEach(o=>{o.classList.add('done');if(o.dataset.ok==='1'){o.classList.add('correct');o.insertAdjacentHTML('beforeend','<span class="mk">✓</span>');}});
+ const fb=quiz.querySelector('.fb');
+ if(ok){fb.className='fb show good';fb.textContent='¡Correcto! 🎉';}
+ else{btn.classList.add('wrong');btn.insertAdjacentHTML('beforeend','<span class="mk">✗</span>');fb.className='fb show bad';fb.textContent='Respuesta incorrecta. La correcta está marcada en verde.';}
+ state[d.id].answered++;if(ok)state[d.id].correct++;
+ document.getElementById('score').textContent='Aciertos: '+state[d.id].correct+' / '+d.q.length;
+ renderNav();
+ if(state[d.id].answered===d.q.length){
+   const r=document.getElementById('result');const sc=state[d.id].correct,tot=d.q.length;
+   let msg=sc===tot?'¡Perfecto! Dominaste este tema 🌟':sc>=Math.ceil(tot*0.6)?'¡Muy bien! Repasa lo que falló y vuelve a intentarlo 💪':'Sigue estudiando el contenido y vuelve a intentar la prueba 📚';
+   r.innerHTML='Resultado: '+sc+' de '+tot+' correctas<br>'+msg;r.classList.add('show');
+ }
+}
+</script>
+</body>
+</html>

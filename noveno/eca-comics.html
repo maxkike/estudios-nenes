@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECA · Cómics y novelas gráficas · 9no</title>
+<style>
+  :root{
+    --bg:#fbf9f6; --ink:#3a3a3a; --muted:#7a7a72; --line:#ece7df;
+    --blue-bg:#eaf3fd; --blue-ink:#3a6ea5;
+    --coral-bg:#fdeee8; --coral-ink:#b15c3e;
+    --amber-bg:#fdf5e6; --amber-ink:#9a6a1c;
+    --ok-bg:#eafaf3; --ok-ink:#2e7d63; --ok-bd:#9bd9bd;
+    --no-bg:#fdecec; --no-ink:#c0564a; --no-bd:#f0b6ae;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6;}
+  #portada{min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:32px; background:linear-gradient(160deg,#eaf3fd,#fdf5e6 50%,#fdeee8);}
+  #portada .badge{font-size:60px;}
+  #portada h1{font-size:32px; margin:14px 0 4px; color:#3a6ea5; font-weight:700;}
+  #portada h2{font-size:18px; font-weight:500; color:#6f7a72; margin:0;}
+  #portada p{color:#8a8a82; max-width:450px; margin:12px 0 26px;}
+  .start{border:none; background:#7badd9; color:#fff; font-size:17px; padding:14px 34px; border-radius:30px; cursor:pointer; box-shadow:0 6px 16px rgba(123,173,217,.4); transition:transform .15s;}
+  .start:hover{transform:translateY(-2px);}
+  .tags{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:26px;}
+  .tags span{background:rgba(255,255,255,.7); padding:6px 14px; border-radius:20px; font-size:13px; color:#6f7a72;}
+  #app{display:none; max-width:920px; margin:0 auto; padding:18px;}
+  .top{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;}
+  .top h1{font-size:20px; margin:0; color:#3a6ea5;}
+  .home{border:1px solid var(--line); background:#fff; border-radius:18px; padding:7px 16px; cursor:pointer; font-size:13px; color:var(--muted);}
+  .layout{display:flex; gap:16px; align-items:flex-start;}
+  nav{flex:0 0 195px; display:flex; flex-direction:column; gap:10px;}
+  .navbtn{text-align:left; padding:13px 14px; border-radius:16px; border:2px solid transparent; cursor:pointer; font-size:14px; line-height:1.3; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .navbtn small{display:block; color:var(--muted); font-size:11.5px; margin-top:3px;}
+  main{flex:1; min-width:0;}
+  .head{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
+  .head .ic{font-size:30px;}
+  .head h2{margin:0; font-size:22px;}
+  .card{border-radius:18px; padding:14px 18px; margin-bottom:12px;}
+  .card h3{margin:0 0 5px; font-size:15.5px;}
+  .card p{margin:0; font-size:14.5px;}
+  .qhead{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:22px 0 4px;}
+  .qhead h3{margin:0; font-size:18px;}
+  .score{font-size:14px; font-weight:600; background:#fff; border:1px solid var(--line); border-radius:16px; padding:5px 14px;}
+  .hint{font-size:12.5px; color:#a8a89e; margin:0 0 12px;}
+  .quiz{border:1px solid var(--line); border-radius:16px; padding:14px 16px; margin-bottom:11px; background:#fff;}
+  .qn{font-weight:600; font-size:15px; margin-bottom:10px;}
+  .qn .num{display:inline-block; width:24px; height:24px; line-height:24px; text-align:center; border-radius:50%; color:#fff; font-size:13px; margin-right:7px;}
+  .opt{display:block; width:100%; text-align:left; border:1px solid var(--line); background:#fcfbf9; border-radius:12px; padding:10px 13px; margin-bottom:7px; font-size:14px; cursor:pointer; transition:all .12s; font-family:inherit; color:var(--ink);}
+  .opt:hover:not(.done){border-color:#cfcabf; background:#fff;}
+  .opt.correct{background:var(--ok-bg); border-color:var(--ok-bd); color:var(--ok-ink); font-weight:600;}
+  .opt.wrong{background:var(--no-bg); border-color:var(--no-bd); color:var(--no-ink);}
+  .opt .mk{float:right; font-weight:700;}
+  .fb{font-size:13.5px; margin-top:6px; padding:8px 11px; border-radius:10px; display:none;}
+  .fb.show{display:block;}
+  .fb.good{background:var(--ok-bg); color:var(--ok-ink);}
+  .fb.bad{background:var(--no-bg); color:var(--no-ink);}
+  .reset{margin-top:6px; border:1px solid var(--line); background:#fff; border-radius:18px; padding:8px 18px; font-size:13px; cursor:pointer; color:var(--muted);}
+  .result{display:none; border-radius:16px; padding:16px; text-align:center; margin:14px 0; font-size:15px; font-weight:600;}
+  .result.show{display:block;}
+  .foot{text-align:center; color:#b8b8ae; font-size:12px; margin:26px 0 10px;}
+  @media(max-width:640px){ .layout{flex-direction:column;} nav{flex:none; width:100%; flex-direction:row; overflow-x:auto;} .navbtn{flex:0 0 auto; min-width:160px;} }
+</style>
+</head>
+<body>
+
+<section id="portada">
+  <div class="badge">🎨</div>
+  <h1>Educación Cultural y Artística</h1>
+  <h2>Cómics y novelas gráficas · 9no de Básica</h2>
+  <p>Estudia las tres lecciones y luego pon a prueba lo aprendido respondiendo el cuestionario de cada tema.</p>
+  <button class="start" onclick="entrar()">Empezar a estudiar</button>
+  <div class="tags"><span>✏️ Bocetos</span><span>🎭 Personajes</span><span>💬 Guiones y viñetas</span></div>
+</section>
+
+<section id="app">
+  <div class="top">
+    <h1>ECA · Cómics y novelas gráficas</h1>
+    <button class="home" onclick="inicio()">← Portada</button>
+  </div>
+  <div class="layout">
+    <nav id="nav"></nav>
+    <main id="main"></main>
+  </div>
+  <div class="foot">Estudia el contenido y resuelve la prueba de cada lección 🎯</div>
+</section>
+
+<script>
+const DATA=[
+ {id:0,emoji:"✏️",c:"#3a6ea5",bg:"#eaf3fd",title:"Lección 1 · Bocetos",
+  blocks:[
+   {h:"¿Qué es un boceto?",t:"Es una herramienta esencial del dibujo y la <b>piedra angular</b> de los cómics y novelas gráficas. Funciona como el <b>esqueleto inicial</b> sobre el que se construyen las ideas, permitiendo explorar conceptos, composiciones y narrativas antes del trabajo final."},
+   {h:"Exploración y experimentación",t:"Permite probar diferentes <b>ángulos de cámara, expresiones faciales y posturas</b> de los personajes sin la presión de hacer un dibujo perfecto. Invita a explorar y a equivocarse, y a hacer ajustes rápidos."},
+   {h:"Planificación visual y narrativa",t:"En los cómics, los bocetos sirven para <b>diseñar la página y ordenar las viñetas</b>, que guían el flujo de lectura. Establecen la secuencia lógica y emocional de los paneles y mantienen el ritmo de la historia."},
+   {h:"Comunicación entre creativos",t:"Sirven de medio de comunicación entre los artistas (escritores, entintadores y coloristas). Dan una <b>referencia visual clara</b> para que todo el equipo esté alineado con la visión y el estilo."},
+   {h:"Eficiencia y correcciones",t:"Trabajar primero en bocetos <b>ahorra tiempo y recursos</b>: se corrigen errores antes de avanzar el dibujo, evitando re-trabajo costoso."}
+  ],
+  q:[
+   ["¿Qué es un boceto?",["El esqueleto inicial del dibujo, donde se construyen las ideas antes del trabajo final","El dibujo final ya coloreado y terminado","El texto que acompaña a las viñetas"],0],
+   ["¿Con qué se compara el boceto?",["Con un esqueleto y la piedra angular del dibujo","Con el color final de la obra","Con la portada del cómic"],0],
+   ["¿Qué permite explorar el boceto?",["Ángulos, expresiones faciales y posturas sin presión","Solamente los colores definitivos","El precio de venta del cómic"],0],
+   ["¿Para qué sirve el boceto en los cómics?",["Para diseñar la página y ordenar las viñetas","Para imprimir el cómic terminado","Para vender la historia"],0],
+   ["¿Cómo ayuda a la comunicación entre creativos?",["Da una referencia visual clara para alinear al equipo","Reemplaza por completo al guion escrito","Elimina la necesidad de coloristas"],0],
+   ["¿Por qué el boceto ahorra tiempo y recursos?",["Permite corregir errores antes de avanzar el dibujo","Porque siempre se hace con computadora","Porque no necesita lápiz ni papel"],0]
+  ]},
+ {id:1,emoji:"🎭",c:"#b15c3e",bg:"#fdeee8",title:"Lección 2 · Personajes",
+  blocks:[
+   {h:"Dos pilares",t:"La <b>imaginación</b> y la <b>creación de personajes</b> son pilares del arte del dibujo en cómics y novelas gráficas. Enriquecen la conexión emocional entre la obra y su público."},
+   {h:"Imaginación como motor creativo",t:"La imaginación permite <b>concebir mundos y personajes</b> que trascienden la realidad ordinaria: desde paisajes urbanos futuristas hasta dimensiones místicas. Es el telón de fondo de las interacciones de la historia."},
+   {h:"Creación de personajes",t:"Un personaje bien desarrollado es un <b>vehículo para explorar temas complejos y emociones</b>. Suele tener atributos <b>exagerados</b> (en diseño y personalidad) que lo hacen memorable. Debe ser multidimensional y coherente, con su propia historia, motivaciones y evolución."},
+   {h:"Función en la narrativa",t:"Los personajes son el <b>corazón de la narrativa</b>: impulsan la trama con sus interacciones y su desarrollo, y permiten que el lector empatice y dialogue con la historia."}
+  ],
+  q:[
+   ["¿Cuáles son los dos pilares del arte del dibujo en cómics?",["La imaginación y la creación de personajes","El color y el tipo de papel","La impresión y la venta"],0],
+   ["¿Qué papel cumple la imaginación?",["Es el motor creativo que concibe mundos y personajes","Solo sirve para colorear el dibujo","Define el precio del cómic"],0],
+   ["¿Cómo debe ser un personaje bien desarrollado?",["Multidimensional y coherente, con historia y motivaciones","Plano y sin ningún cambio","Idéntico a otro personaje ya existente"],0],
+   ["¿Por qué los personajes tienen atributos exagerados?",["Para hacerlos memorables y atractivos","Para gastar más tinta","Para confundir al lector"],0],
+   ["¿Qué función cumplen los personajes en la narrativa?",["Son el corazón de la historia e impulsan la trama","Solo rellenan espacio en la página","Sustituyen a las viñetas"],0],
+   ["¿Qué logran los personajes con el lector?",["Que pueda empatizar y dialogar con la historia","Que deje de leer el cómic","Que solo mire los colores"],0]
+  ]},
+ {id:2,emoji:"💬",c:"#9a6a1c",bg:"#fdf5e6",title:"Lección 3 · Guiones y viñetas",
+  blocks:[
+   {h:"¿Para qué sirven?",t:"La imaginación y la creación de <b>guiones y viñetas</b> son componentes vitales del cómic: dan estructura a la narrativa y a la comunicación visual, capturando la atención del lector y transmitiendo el mensaje y las emociones."},
+   {h:"Creación de guiones",t:"El guion es el <b>esqueleto del cómic</b>. Define la secuencia de eventos, los diálogos, las acciones de los personajes y las transiciones entre escenas. Un buen guion debe ser <b>claro y preciso</b>, y su estructura marca la tensión y el ritmo."},
+   {h:"Creación de viñetas",t:"Las viñetas son las <b>unidades básicas</b> del cómic. Su disposición, tamaño, perspectiva y composición sirven para <b>dirigir la mirada del lector</b> y marcar el ritmo de lectura. Pueden ampliar el tiempo y el espacio o concentrarlos intensamente."},
+   {h:"En conjunto",t:"La imaginación, los guiones y las viñetas son herramientas narrativas que <b>transforman palabras e ideas</b> en una experiencia visual y emocionalmente resonante."}
+  ],
+  q:[
+   ["¿Qué es un guion?",["El esqueleto del cómic: secuencia, diálogos, acciones y transiciones","El color de fondo de las viñetas","La tapa o portada del libro"],0],
+   ["¿Cómo debe ser un buen guion?",["Claro y preciso","Largo y confuso","Sin diálogos"],0],
+   ["¿Qué son las viñetas?",["Las unidades básicas de un cómic","Los colores del dibujo","Los autores del cómic"],0],
+   ["¿Para qué sirven la disposición y el tamaño de las viñetas?",["Para dirigir la mirada del lector y marcar el ritmo","Para decorar la portada","Para numerar las páginas"],0],
+   ["¿Qué pueden hacer las viñetas con el tiempo y el espacio?",["Ampliarlos o concentrarlos intensamente","Borrarlos por completo","Nada, siempre son fijas"],0],
+   ["¿Cuál es el punto de partida del guionista?",["La imaginación, para concebir una trama original","El color final del dibujo","La máquina de imprimir"],0]
+  ]}
+];
+let cur=0;
+const state={};
+DATA.forEach(d=>state[d.id]={answered:0,correct:0});
+const nav=document.getElementById('nav'),main=document.getElementById('main');
+function entrar(){document.getElementById('portada').style.display='none';document.getElementById('app').style.display='block';render();window.scrollTo(0,0);}
+function inicio(){document.getElementById('app').style.display='none';document.getElementById('portada').style.display='flex';window.scrollTo(0,0);}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function renderNav(){nav.innerHTML='';DATA.forEach(d=>{const b=document.createElement('button');b.className='navbtn';b.style.background=d.bg;b.style.borderColor=d.id===cur?d.c:'transparent';b.innerHTML='<span style="color:'+d.c+';font-weight:600">'+d.emoji+' '+d.title+'</span><small>'+state[d.id].correct+'/'+d.q.length+' aciertos</small>';b.onclick=()=>{cur=d.id;render();window.scrollTo(0,0);};nav.appendChild(b);});}
+function render(){renderNav();const d=DATA[cur];let h='';
+ h+='<div class="head"><span class="ic">'+d.emoji+'</span><h2 style="color:'+d.c+'">'+d.title+'</h2></div>';
+ d.blocks.forEach(bl=>{h+='<div class="card" style="background:'+d.bg+'"><h3 style="color:'+d.c+'">'+bl.h+'</h3><p>'+bl.t+'</p></div>';});
+ h+='<div class="qhead"><h3 style="color:'+d.c+'">Prueba: '+d.title.split('·')[1].trim()+'</h3><span class="score" id="score" style="color:'+d.c+'">Aciertos: '+state[d.id].correct+' / '+d.q.length+'</span></div>';
+ h+='<p class="hint">Elige la respuesta correcta en cada pregunta. Verde = correcta, rojo = incorrecta.</p>';
+ d.q.forEach((qq,i)=>{
+   const opts=shuffle(qq[1].map((txt,idx)=>({txt,ok:idx===qq[2]})));
+   h+='<div class="quiz" data-q="'+i+'"><div class="qn"><span class="num" style="background:'+d.c+'">'+(i+1)+'</span>'+qq[0]+'</div>';
+   opts.forEach(o=>{h+='<button class="opt" data-ok="'+(o.ok?1:0)+'" onclick="answer(this)">'+o.txt+'</button>';});
+   h+='<div class="fb"></div></div>';
+ });
+ h+='<div class="result" id="result" style="background:'+d.bg+';color:'+d.c+'"></div>';
+ h+='<button class="reset" onclick="render()">↻ Reiniciar prueba</button>';
+ main.innerHTML=h;
+}
+function answer(btn){
+ const quiz=btn.closest('.quiz');
+ if(quiz.dataset.done)return;
+ quiz.dataset.done=1;
+ const d=DATA[cur];const ok=btn.dataset.ok==='1';
+ quiz.querySelectorAll('.opt').forEach(o=>{o.classList.add('done');if(o.dataset.ok==='1'){o.classList.add('correct');o.querySelector('.mk')||o.insertAdjacentHTML('beforeend','<span class="mk">✓</span>');}});
+ const fb=quiz.querySelector('.fb');
+ if(ok){fb.className='fb show good';fb.textContent='¡Correcto! 🎉';}
+ else{btn.classList.add('wrong');btn.insertAdjacentHTML('beforeend','<span class="mk">✗</span>');fb.className='fb show bad';fb.textContent='Respuesta incorrecta. La correcta está marcada en verde.';}
+ state[d.id].answered++;if(ok)state[d.id].correct++;
+ document.getElementById('score').textContent='Aciertos: '+state[d.id].correct+' / '+d.q.length;
+ renderNav();
+ if(state[d.id].answered===d.q.length){
+   const r=document.getElementById('result');const sc=state[d.id].correct,tot=d.q.length;
+   let msg=sc===tot?'¡Perfecto! Dominaste esta lección 🌟':sc>=Math.ceil(tot*0.6)?'¡Muy bien! Repasa lo que falló y vuelve a intentarlo 💪':'Sigue estudiando el contenido y vuelve a intentar la prueba 📚';
+   r.innerHTML='Resultado: '+sc+' de '+tot+' correctas<br>'+msg;r.classList.add('show');
+ }
+}
+</script>
+</body>
+</html>
